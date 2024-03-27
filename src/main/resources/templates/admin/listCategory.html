@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản Lý Loại Xe</title>
+    <th:block th:replace="layoutAdmin :: link-css"></th:block>
+</head>
+<body>
+<th:block th:replace="layoutAdmin :: header"></th:block>
+<div class="container">
+    <nav class="navbar navbar-light">
+        <div class="container-fluid">
+            <h2>Quản Lý Loại Xe</h2>
+            <form class="d-flex" th:action="@{/admin/item_invoice/search}" method="get">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="keyword">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
+    <h1 th:text="${title}"></h1>
+    <div ><a class="btn btn-primary" href="/admin/addCategory">Thêm Loai Xe Mới</a></div>
+    <table class="table">
+        <tr>
+            <th>ID</th>
+            <th>Tên Loại</th>
+            <th></th>
+        </tr>
+        <tr th:each="category: ${categories}">
+            <td th:text="${category.id}"></td>
+            <td th:text="${category.name}"></td>
+
+            <td>
+                <a class="btn btn-danger" th:href="@{/admin/deleteCate/{id}(id=${category.id})}" onclick="return confirm('Are you sure?')">Delete</a>
+            </td>
+        </tr>
+    </table>
+</div>
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center pagination-sm" th:each="i : ${#numbers.sequence(0, totalPages)}">
+        <li class="page-item" th:classappend="${currentPage == i} ? 'active'">
+            <a class="page-link" th:href="@{/admin/item-invoice/list(pageNo=${i})}" th:text="${i}"></a>
+        </li>
+    </ul>
+</nav>
+</body>
+</html>

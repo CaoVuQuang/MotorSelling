@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initialscale=1.0">
+  <title>Cửa Hàng Xe Cũ</title>
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="css/templatemo-style.css">
+</head>
+<body>
+<th:block th:replace="~{layoutAdmin::header}"></th:block>
+<div class="container">
+  <h1>Edit Xe</h1>
+  <form th:action="@{/admin/save}" th:object="${xe}" method="post">
+    <input type="hidden" th:field="*{id}">
+    <div class="col-6 mb-3">
+      <label class="form-label" for="title">Title:</label>
+      <input class="form-control" required type="text" th:field="*{title}" id="title" th:value="${xe.title}">
+    </div>
+
+    <div class="form-group" width="50%">
+      <label >Image:</label>
+      <!--  <input class="form-control" type="text" th:field="*{image}" id="image" placeholder="image">-->
+      <img   class="form-control"   th:src="@{/image/} + *{image}" placeholder="image"/>
+      <div class="col-6 mb-3">
+        <input type="file" th:field="*{image}"><br>
+      </div>
+    </div>
+
+
+
+    <div class="col-6 mb-3">
+      <label class="form-label" for="description">Description:</label>
+      <input class="form-control" type="text" th:field="*{description}" id="description" th:value="${xe.description}">
+    </div>
+    <div class="col-6 mb-3">
+      <label class="form-label" for="price">Price:</label>
+      <input class="form-control" required type="text" th:field="*{price}" id="price" th:value="${xe.price}">
+    </div>
+    <div class="col-6 mb-3">
+      <label class="form-label" for="category">Category:</label>
+      <select class="form-control" id="category" name="category.id">
+        <option value="">-- Select Category --</option>
+        <option th:each="category : ${categories}" th:value="${category.id}"
+                th:text="${category.name}"></option>
+      </select>
+    </div>
+    <div class="col-6 mb-3">
+      <label class="form-label" for="hang">Hãng:</label>
+      <select class="form-control" id="hang" name="hang.id">
+        <option value="">-- Select Hãng --</option>
+        <option th:each="hang : ${hangs}" th:value="${hang.id}"
+                th:text="${hang.name}"></option>
+      </select>
+    </div>
+    <input type="submit" class="btn btn-primary" value="Save">
+  </form>
+  <br>
+  <a th:href="@{/admin/list}">Back to List</a>
+</div>
+<th:block th:replace="~{layout :: footer}"></th:block>
+</body>
+</html>

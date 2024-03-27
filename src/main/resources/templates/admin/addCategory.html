@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link th:fragment="link-css" rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <title>Thêm Loại Xe</title>
+</head>
+
+<body>
+<th:block th:replace="~{layoutAdmin :: header}"></th:block>
+<div class="container">
+    <h1>Thêm Loại Xe</h1>
+    <form th:action="@{/admin/addCategory}" th:object="${category}" method="post">
+        <div class="col-6 mb-3">
+            <label class="form-label" for="name">Title:</label>
+            <input class="form-control" required type="text" th:field="*{name}" id="name" th:value="${category.name}">
+            <span class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+        </div>
+
+        <input type="submit" class="btn btn-primary" value="Save">
+    </form>
+    <br>
+    <a th:href="@{/admin/list}">Back to List</a>
+</div>
+<th:block th:replace="~{layoutAdmin :: footer}"></th:block>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initialscale=1.0">
+    <title th:text="${xe.title}"></title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="/css/templatemo-style.css">
+</head>
+<body>
+<th:block th:replace="~{layout::body}"></th:block>
+<div class="container">
+
+
+
+    <div class="container-fluid tm-container-content tm-mt-60">
+        <div class="row mb-4">
+            <!--<h2 th:text="${xe.title}"></h2>-->
+        </div>
+        <div class="row tm-mb-90">
+            <div class="col-xl-8 col-lg-7 col-md-6 col-sm-12">
+                <img height="90%" width="90%" th:src="@{/image/{image}(image=${xe.image})}" alt="Image" class="img-fluid">
+            </div>
+            <div class="col-xl-4 col-lg-5 col-md-6 col-sm-12">
+                <div class="tm-bg-gray tm-video-details">
+                    <h2 th:text="${xe.title}"></h2>
+
+
+                    <div class="mb-4">
+
+
+
+                    </div>
+                    <h4 class="tm-text-gray-dark mb-3">Loại Xe: <span  th:text="${xe.category.name}"></span></h4>
+                    <h4 class="tm-text-gray-dark mb-3">Hãng Xe: <span  th:text="${xe.hang.name}"></span></h4>
+                    <h4>Giá: <span th:text="${xe.price}"></span> VNĐ</h4>
+
+
+                    <div class="mb-4">
+                        <h4 class="tm-text-gray-dark mb-3">Mô Tả:</h4>
+                        <p th:text="${xe.description}"></p>
+                    </div>
+                    <form th:action="@{/xemays/add-to-cart}" method="post" class="d-inline">
+                        <input type="hidden" name="id" th:value="${xe.getId()}">
+                        <input type="hidden" name="name"
+                               th:value="${xe.getTitle()}">
+                        <input type="hidden" name="price"
+                               th:value="${xe.getPrice()}">
+                        <button type="submit" class="btn btn-success"
+                                onclick="return confirm('Are you sure you want to add this xe to cart?')">Thêm Xe Vào Giỏ Hàng</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+<th:block th:replace="layout :: footer"></th:block>
+</body>
+</html>

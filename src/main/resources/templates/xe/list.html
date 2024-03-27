@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initialscale=1.0">
+  <title>Cửa Hàng Xe Cũ</title>
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="/css/templatemo-style.css">
+</head>
+<body>
+<!-- Page Loader -->
+<!--<div id="loader-wrapper">
+  <div id="loader"></div>
+
+  <div class="loader-section section-left"></div>
+  <div class="loader-section section-right"></div>
+
+</div>-->
+<nav class="navbar navbar-expand-lg">
+  <div class="container-fluid">
+    <a class="navbar-brand" th:href="@{/xemays}">
+      <i class="fas fa-film mr-2"></i>
+      NhomChuyenCan
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link nav-link-1 active" aria-current="page" href="xemays">Trang Chủ</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link nav-link-3" th:href="@{/about}">Thông Tin</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link nav-link-4" th:href="@{/contact}">Liên Hệ</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link nav-link-4" th:href="@{/cart}">Giỏ Hàng</a>
+        </li>
+
+        <!--<li class="nav-item">
+            <a class="nav-link nav-link-4" th:href="@{/login}">Login</a>
+        </li>-->
+
+
+
+        <li sec:authorize="isAuthenticated()">
+          <form th:action="@{/logout}" method="post">
+            <button class="btn btn-outline-danger" type="submit">Logout</button>
+          </form>
+        </li>
+        <li sec:authorize="!isAuthenticated()">
+          <a class="btn btn-outline-primary" href="/login">Login</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="tm-hero d-flex justify-content-center align-items-center" data-parallax="scroll" data-image-src="/img/hero.jpg">
+
+  <nav class="navbar navbar-light">
+    <div class="container-fluid">
+      <form class="d-flex" th:action="@{/xemays/search}" method="get">
+        <input class="form-control me-2" type="search"
+               placeholder="Tìm Kiếm Xe" aria-label="Search" name="keyword">
+        <button class="btn btn-outline-success tm-search-btn"
+                type="submit">Tìm</button>
+
+
+        <select class="form-control me-2" name="hang" type="search" >
+          <option value="">Hãng Xe</option>
+          <option value="Honda">Honda</option>
+          <option value="Yamaha">Yamaha</option>
+        </select>
+        <select class="form-control me-2" name="category" type="search" >
+          <option value="">Loại Xe</option>
+          <option value="Xe Côn">Xe Côn</option>
+          <option value="Xe Ga">Xe Ga</option>
+          <option value="Xe Số">Xe Số</option>
+        </select>
+
+        <button class="btn btn-outline-success tm-search-btn" type="submit">Lọc</button>
+      </form>
+    </div>
+  </nav>
+
+
+</div>
+
+<div class="container">
+  <nav class="navbar navbar-light">
+    <div class="container-fluid">
+      <h2>Cửa Hàng Xe Máy</h2>
+
+    </div>
+  </nav>
+
+
+
+
+  <div class="row tm-mb-90 tm-gallery" >
+  <div th:each="xe: ${xemays}" class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-5">
+    <figure class="effect-ming tm-video-item">
+      <img th:src="@{/image/{image}(image=${xe.image})}" alt="Image" class="img-fluid">
+      <figcaption class="d-flex align-items-center justify-content-center">
+        <h2  th:text="${xe.title}"></h2>
+        <a th:href="@{/xemays/detail/{id}(id=${xe.id})}"></a>
+      </figcaption>
+    </figure>
+    <div class="justify-content-between">
+      <h4><a th:href="@{/xemays/detail/{id}(id=${xe.id})}" th:text="${xe.title}"></a></h4>
+      Giá: <span class="" th:text="${xe.price}"></span> VNĐ
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="row tm-mb-90">
+  <ul class="pagination justify-content-center pagination-sm">
+    <li class="active tm-paging-link" th:class="${currentPage == 0 ? 'disabled' : ''}">
+      <a class="active tm-paging-link" th:href="@{/xemays(pageNo=${currentPage - 1})}">
+        Trước
+      </a>
+    </li>
+
+    <li class="tm-paging d-flex" th:classappend="${i == currentPage ? 'active' : ''}"
+        th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+      <a class="active tm-paging-link" th:href="@{/xemays(pageNo=${i})}" th:text="${i} + 1"></a>
+    </li>
+
+    <li class="page-item" th:class="${currentPage == totalPages - 1 ? 'disabled' : ''}">
+      <a class="active tm-paging-link" th:href="@{/xemays(pageNo=${currentPage + 1})}">
+        Sau
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+
+
+
+<th:block th:replace="layout :: footer"></th:block>
+</body>
+</html>

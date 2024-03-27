@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link th:fragment="link-css" rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <title>Add Xe</title>
+</head>
+
+<body>
+<th:block th:replace="~{layoutAdmin :: header}"></th:block>
+<div class="container">
+    <h1>Add Xe</h1>
+    <form th:action="@{/admin/add}" th:object="${xe}" method="post">
+        <div class="col-6 mb-3">
+            <label class="form-label" for="title">Title:</label>
+            <input class="form-control" required type="text" th:field="*{title}" id="title" th:value="${xe.title}">
+            <span class="text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span>
+        </div>
+
+        <div class="col-6 mb-3">
+            <input type="file" th:field="*{image}"><br>
+        </div>
+
+
+
+        <div class="col-6 mb-3">
+            <label class="form-label" for="description">Description:</label>
+            <input class="form-control" type="text" th:field="*{description}" id="description" th:value="${xe.description}">
+            <span class="text-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span>
+        </div>
+        <div class="col-6 mb-3">
+            <label class="form-label" for="price">Price:</label>
+            <input class="form-control" required type="text" th:field="*{price}" id="price" th:value="${xe.price}">
+        </div>
+        <div class="col-6 mb-3">
+            <label class="form-label" for="category">Category:</label>
+            <select class="form-control" id="category" name="category.id">
+                <option value="">-- Select Category --</option>
+                <option th:each="category : ${categories}" th:value="${category.id}"
+                        th:text="${category.name}"></option>
+            </select>
+            <span class="text-danger" th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></span>
+        </div>
+        <div class="col-6 mb-3">
+            <label class="form-label" for="hang">Hang:</label>
+            <select class="form-control" id="hang" name="hang.id">
+                <option value="">-- Select Hang --</option>
+                <option th:each="hang : ${hangs}" th:value="${hang.id}"
+                        th:text="${hang.name}"></option>
+            </select>
+            <span class="text-danger" th:if="${#fields.hasErrors('hang')}" th:errors="*{hang}"></span>
+        </div>
+        <input type="submit" class="btn btn-primary" value="Save">
+    </form>
+    <br>
+    <a th:href="@{/admin/list}">Back to List</a>
+</div>
+<th:block th:replace="~{layout :: footer}"></th:block>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initialscale=1.0">
+  <title>Cửa Hàng Xe Cũ</title>
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="/css/templatemo-style.css">
+</head>
+<body>
+<th:block th:replace="~{layout::body}"></th:block>
+<div class="container" th:if="${not #lists.isEmpty(cart.cartItems)}">
+  <table class="table">
+    <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Tên</th>
+      <!--<th scope="col">image</th>-->
+      <th scope="col">Số Lượng</th>
+      <th scope="col">Đơn Giá</th>
+      <th scope="col">Tổng</th>
+      <th scope="col">Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="item : ${cart.cartItems}">
+      <td th:text="${item.getXeId()}"></td>
+      <td th:text="${item.getName()}"></td>
+      <!--<td th:text="${item.getBookImage()}"></td>-->
+      <!--<form method="post" action="/add-to-cart">
+        &lt;!&ndash; ... &ndash;&gt;
+        <input type="hidden" name="image" value="path_to_image">
+        &lt;!&ndash; ... &ndash;&gt;
+      </form>-->
+      <td>
+
+        <label>
+          <input type="number" min="1"
+                 th:value="${item.getQuantity()}"
+                 th:attr="data-id=${item.getXeId()}"
+                 class="form-control quantity">
+        </label>
+      </td>
+      <td th:text="${item.getPrice()}"></td>
+      <td th:text="${item.getPrice() * item.getQuantity()}"></td>
+      <td>
+        <a class="btn btn-danger"
+           th:href="@{/cart/removeFromCart/{id}(id=${item.getXeId()})}">
+          Xóa
+        </a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <div class="row">
+    <div class="col-md-12">
+      <h3>Tổng: <span th:text="${totalPrice}"></span></h3>
+    </div>
+    <div class="col-md-12 text-center">
+      <a class="btn btn-success"
+         th:href="@{/cart/datHang}">Đặt Hàng</a>
+      <a class="btn btn-danger"
+         th:href="@{/cart/clearCart}">Xóa Toàn Bộ</a>
+    </div>
+  </div>
+</div>
+<div class="container" th:if="${#lists.isEmpty(cart.cartItems)}">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 offset-md-3 text-center">
+        <h3 class="mt-5">Giỏ Hàng Của Bạn Đang Trống</h3>
+        <p class="lead">Vui Lòng Thêm Xe Bạn Muốn Mua</p>
+        <a class="btn btn-primary" href="/xemays">Trở Lại Cửa Hàng</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script th:src="@{/js/cart.js}"></script>
+<th:block th:replace="~{layout::footer}"></th:block>
+</body>
+</html>
